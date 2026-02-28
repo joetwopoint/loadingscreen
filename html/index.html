@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sun Valley Roleplay — Loading</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="background"></div>
+
+  <audio id="bgAudio" autoplay></audio>
+
+
+  <div class="overlay"></div>
+
+  <!-- Large transparent background logo watermark -->
+  <div class="background-logo">
+    <img src="logo.png" alt="Server Logo" />
+  </div>
+
+  <div class="wrapper">
+    <div class="left-panel">
+      <div class="logo-block">
+        <img src="logo.png" alt="Sun Valley Roleplay" class="logo-image" />
+        <div class="logo-text">
+          <div class="logo-title">SUN VALLEY ROLEPLAY</div>
+          <div class="subtitle">@sunvalleyroleplay2</div>
+        </div>
+      </div>
+
+      <div class="status-text">Connecting to Sun Valley Roleplay…</div>
+
+      <div class="progress-container">
+        <div class="progress-bar"></div>
+      </div>
+      <div class="small-text">
+        Please wait while we load the city.<br />
+        Random shorts pulled live from our socials.
+      </div>
+
+      <div class="tips-title">SERVER TIPS</div>
+      <div class="tips-text" id="tipText">
+        Be respectful to other players. RP > FRP.
+      </div>
+
+      <div class="stats-box">
+        <div class="stat-line">
+          There is <span id="emailCount">437</span> people in the email system
+        </div>
+        <div class="stat-line">
+          There is currently <span id="stateCount">0</span> people in the state
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-dynamic-title">On-duty by department:</div>
+        <div class="duty-list" id="dutyList">
+          <!-- Filled dynamically from duty stats -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional staff panel (middle column). Controlled by STAFF_ENABLED in script.js -->
+    <div class="staff-panel" id="staffPanel" style="display:none;">
+      <div class="staff-title">Staff Team</div>
+      <div class="staff-list" id="staffList">
+        <!-- Filled by script.js if STAFF_ENABLED is true -->
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div class="video-wrapper">
+        <div class="phone-frame">
+          <div class="phone-screen">
+            <iframe
+              id="shortFrame"
+              frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture"
+              scrolling="no"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
