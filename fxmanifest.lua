@@ -14,5 +14,5 @@ files {
     'html/script.js',
     'html/logo.png',
     'html/staff/*',
-    'html/audio/*'
+    'html/audio/*',
 }

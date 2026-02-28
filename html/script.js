@@ -6,11 +6,11 @@
 
 // Discord Guild ID (enable the Discord "Server Widget" in your Discord server settings).
 // This drives the "people in the email system" count.
-var DISCORD_GUILD_ID = "1358478289038999552E"; // e.g. "123456789012345678"
+var DISCORD_GUILD_ID = ""; // e.g. "123456789012345678"
 
 // FiveM server HTTP endpoint (for players.json & info.json).
 // This drives the "people in the state" count.
-var FIVEM_SERVER_ENDPOINT = "15.204.57.143:30120";
+var FIVEM_SERVER_ENDPOINT = "";
 
 // How often to refresh Discord/server stats (in milliseconds)
 var STATS_REFRESH_MS = 30000;
@@ -18,18 +18,13 @@ var STATS_REFRESH_MS = 30000;
 
 // ===== BACKGROUND AUDIO (LOCAL MP3) =====
 const AUDIO_ENABLED = true;          // master toggle for background music
-let audioDefaultVolume = 0.1;        // 20% starting volume
+let audioDefaultVolume = 0.12;        // 20% starting volume
 let audioVolume = audioDefaultVolume;
 let bgAudioElement = null;
 
 // List of audio files to pick from (relative to html/)
 // Drop multiple .mp3/.ogg files into html/audio and list them here.
 const AUDIO_TRACKS = [
-  "audio/Sun-Valley.mp3",
-  "audio/Sun-ValleySky.mp3",
-  "audio/Sun-ValleySkies.mp3",
-  "audio/Sun-ValleyBurn.mp3",
-  "audio/Sun-ValleyDreams.mp3",
 ];
 
 // Staff toggle: set to true to show staff list column.
@@ -57,20 +52,15 @@ const staffMembers = [
 // TikTok links (pre-filled with example URLs)
 const tikTokUrls = [
   "https://www.tiktok.com/@sunvalleyroleplay/video/7565518128927591711",
-  "https://www.tiktok.com/@sunvalleyroleplay/video/7577016794569788702",
+  "https://www.tiktok.com/@sunvalleyroleplay/video/7609853636394388766",
+  "https://www.tiktok.com/@sunvalleyroleplay/video/7608741962774088991",
+  "https://www.tiktok.com/@sunvalleyroleplay/video/7608431031502343454",
+  "https://www.tiktok.com/@sunvalleyroleplay/video/7599375688910621983",
+  "https://www.tiktok.com/@sunvalleyroleplay/video/7598655106329890079",
   "https://www.tiktok.com/@sunvalleyroleplay/video/7575985752375332127",
-  "https://www.tiktok.com/@sunvalleyroleplay/video/7567100329674755359",
   "https://www.tiktok.com/@sunvalleyroleplay/video/7566234364057554207",
   "https://www.tiktok.com/@sunvalleyroleplay/video/7565874934048722206",
-  "https://www.tiktok.com/@sunvalleyroleplay/video/7540003369935539487",
-  "https://www.tiktok.com/@sunvalleyroleplay/video/7536165613924846879",
-  "https://www.tiktok.com/@sunvalleyroleplay/video/7534080149491338509",
-  "https://www.tiktok.com/@sunvalleyroleplay/video/7496361694399139115",
-  "https://www.tiktok.com/@sunvalleyroleplay/video/7496356035360296238",
-  "https://www.tiktok.com/@sunvalleyroleplay/video/7496353751230631214",
-  "https://www.tiktok.com/@sunvalleyroleplay/photo/7494316754177395999",
-  "https://www.tiktok.com/@sunvalleyroleplay/photo/7493511478784396587",
-  "https://www.tiktok.com/@sunvalleyroleplay/video/7493494626968505646"
+  "https://www.tiktok.com/@sunvalleyroleplay/video/7537862310837144887"
 ];
 
 
