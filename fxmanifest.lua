@@ -8,6 +8,7 @@ version '4.0.0'
 
 loadscreen 'html/index.html'
 
+
 files {
     'html/index.html',
     'html/style.css',

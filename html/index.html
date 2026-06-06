@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>SunValley Roleplay — Loading</title>
+  <title>Graveyard Shift Roleplay — Loading</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -22,14 +22,14 @@
   <div class="wrapper">
     <div class="left-panel">
       <div class="logo-block">
-        <img src="logo.png" alt="SunValley Roleplay" class="logo-image" />
+        <img src="logo.png" alt="Graveyard Shift Roleplay" class="logo-image" />
         <div class="logo-text">
-          <div class="logo-title">SunValley ROLEPLAY</div>
-          <div class="subtitle">@sunvalleyroleplay2</div>
+          <div class="logo-title">Graveyard Shift ROLEPLAY</div>
+          <div class="subtitle">@graveyardroleplay</div>
         </div>
       </div>
 
-      <div class="status-text">Connecting to SunValley Roleplay…</div>
+      <div class="status-text">Connecting to Graveyard Shift Roleplay…</div>
 
       <div class="progress-container">
         <div class="progress-bar"></div>
@@ -45,16 +45,30 @@
       </div>
 
       <div class="stats-box">
-        <div class="stat-line">
-          There is <span id="emailCount">437</span> people in the email system
+        <div class="discord-widget-card" id="discordWidgetCard">
+          <div class="discord-banner" id="discordBanner"></div>
+          <div class="discord-widget-body">
+            <img class="discord-icon" id="discordIcon" src="logo.png" alt="Discord Server Icon" />
+            <div class="discord-main-row">
+              <div>
+                <div class="discord-server-name" id="discordServerName">Discord Server</div>
+                <div class="discord-counts">
+                  <span class="discord-status-dot"></span><span id="discordOnlineCount">--</span> Online
+                  <span class="discord-member-dot"></span><span id="discordMemberCount">--</span> Members
+                </div>
+              </div>
+            </div>
+            <div class="discord-description" id="discordDescription">Set your Discord invite code in script.js.</div>
+          </div>
         </div>
-        <div class="stat-line">
+
+        <div class="stat-line state-count-line">
           There is currently <span id="stateCount">0</span> people in the state
         </div>
         <div class="stat-divider"></div>
         <div class="stat-dynamic-title">On-duty by department:</div>
         <div class="duty-list" id="dutyList">
-          <!-- Filled dynamically from duty stats -->
+          <!-- Filled dynamically from PoliceEMSActivity duty stats -->
         </div>
       </div>
     </div>
@@ -74,7 +88,7 @@
             <iframe
               id="shortFrame"
               frameborder="0"
-              allow="autoplay; fullscreen; picture-in-picture"
+              allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
               scrolling="no"
             ></iframe>
           </div>
