@@ -9,7 +9,7 @@
 // Examples:
 //   discord.gg/abc123 -> "abc123"
 //   discord.com/invite/abc123 -> "abc123"
-var DISCORD_INVITE_CODE = "TeCxSpC5wf";
+var DISCORD_INVITE_CODE = "";
 
 // Optional custom endpoint/proxy for the invite widget JSON. Leave blank for direct Discord invite API.
 // Direct mode uses: https://discord.com/api/v10/invites/YOUR_CODE?with_counts=true
@@ -26,11 +26,11 @@ var DISCORD_WIDGET_FALLBACK = {
 
 // FiveM server HTTP endpoint (for players.json & info.json).
 // This drives the "people in the state" count.
-var FIVEM_SERVER_ENDPOINT = "http://15.204.91.117:30120";
+var FIVEM_SERVER_ENDPOINT = "";
 
 // Optional: your cfx.re join code. Example: if your join link is cfx.re/join/abc123, set this to "abc123".
 // This is used as a fallback when FIVEM_SERVER_ENDPOINT is blank.
-var CFX_SERVER_CODE = "3pxp7z";
+var CFX_SERVER_CODE = "";
 
 // PoliceEMSActivity resource folder name. This must match the folder name used in resources/.
 // If your folder is renamed, update this value or set POLICE_EMS_ACTIVITY_DUTY_ENDPOINT below.
@@ -95,21 +95,15 @@ const staffMembers = [
 // - Set it to false if you want the loading screen to try to unmute TikTok audio.
 // - TikTok's iframe controls volume internally, so TIKTOK_TARGET_VOLUME_PERCENT is best-effort.
 //   The script sends volume messages when supported and still shows the TikTok volume button to players.
-const TIKTOK_MUTED_BY_DEFAULT = true;
-const TIKTOK_TARGET_VOLUME_PERCENT = 15;
+const TIKTOK_MUTED_BY_DEFAULT = false;
+const TIKTOK_TARGET_VOLUME_PERCENT = 25;
 const TIKTOK_SHOW_CONTROLS = true;
-const TIKTOK_RANDOMIZE_FIRST_CLIP = true;
+const TIKTOK_RANDOMIZE_FIRST_CLIP = false;
 const TIKTOK_AUTO_ADVANCE = true;
 
 // TikTok links. Videos play in this exact order, then loop back to the first.
 const tikTokUrls = [
    "https://www.tiktok.com/@graveyard_shift_rp/video/7554841913027792183",
-  "https://www.tiktok.com/@graveyard_shift_rp/video/7552955657746418957",
-  "https://www.tiktok.com/@graveyard_shift_rp/video/7550377797995302158",
-  "https://www.tiktok.com/@graveyard_shift_rp/video/7549433613318769975",
-  "https://www.tiktok.com/@graveyard_shift_rp/video/7544468486249024823",
-  "https://www.tiktok.com/@graveyard_shift_rp/video/7544411266853489933",
-  "https://www.tiktok.com/@graveyard_shift_rp/video/7515204589436767534",
   "https://www.tiktok.com/@graveyard_shift_rp/video/7541007316179602743"
 ];
 
