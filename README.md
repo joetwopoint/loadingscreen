@@ -1,137 +1,190 @@
 # TwoPoint Loading Screen
 
-A custom FiveM loading screen package developed by **TwoPoint Development**.
+Modified PoliceEMSActivity duty support requires:
 
-This package includes a branded loading screen with TikTok shorts, local background audio, live server population, a Discord invite-card display, and PoliceEMSActivity-powered department duty counts.
+```text
+https://github.com/joetwopoint/PoliceEMSActivity
+```
+
+A customizable FiveM loading screen for GTA V roleplay servers. This version includes a real FiveM loading progress bar, optional TikTok phone videos, optional YouTube background video, a clickable music player, Discord/server stats, a grouped duty summary, and rotatable Staff / Most Wanted / Gallery panels.
 
 ## Features
 
-### Loading Screen
+- Real FiveM loading progress bar using FiveM `loadProgress` messages.
+- Clickable music player with previous, play/pause, next, and volume controls.
+- Mouse cursor enabled on the loading screen.
+- Optional right-side TikTok phone video panel.
+- Optional fullscreen YouTube background video.
+- Optional rotating center panels:
+  - Staff Team
+  - Most Wanted
+  - Gallery
+- Six configurable Staff slots.
+- Six configurable Most Wanted slots.
+- Six configurable Gallery images.
+- Discord invite widget with online/member counts.
+- FiveM player count display.
+- Duty summary display showing grouped totals:
+  - LEO
+  - FIRE
+  - EMS
+- Config-driven setup through `html/script.js`.
 
-- Custom branded FiveM loading screen.
-- Server logo, title, subtitle, status text, progress bar, and rotating server tips.
-- Optional staff panel with images, roles, and descriptions.
-- Local background music support with multiple audio tracks.
-- TikTok phone-frame video player.
-- TikTok clips play in configured list order.
-- TikTok clips auto-advance and loop back to the first video.
-- Configurable TikTok mute setting.
-- Configurable TikTok target volume setting.
-- Optional fullscreen background video support.
+## Requirements
 
-### Live Server Stats
-
-- Displays current FiveM player count from `players.json`.
-- Supports cfx.re join-code fallback when a direct server endpoint is not configured.
-- Displays the people-in-state count directly below the Discord card.
-
-### Discord Invite Card
-
-- Displays a Discord-style server card using only an invite code.
-- Shows server name, icon, banner/splash when available, online count, and member count.
-- Does not display a Join Server button.
-- Supports a custom invite widget endpoint if a proxy is preferred.
-- Includes fallback text while the invite code is being configured.
-
-### PoliceEMSActivity Department Duty Display
-
-- Uses PoliceEMSActivity as the only source for on-duty department data.
-- No separate TwoPoint duty tracker is included.
-- Reads duty information from the patched PoliceEMSActivity HTTP endpoint.
-- Hides departments with zero active units.
-- Supports the configured PoliceEMSActivity departments:
-  - 👮 LSPD
-  - 👮 BCSO
-  - 👮 SASP
-  - 👨‍🚒 Fire
-  - 🚑 EMS
-- Duty data refreshes every 5 minutes by default.
-
-## Resource Structure
+- A FiveM server.
+- The loading screen resource installed in your server resources folder.
+- A valid `fxmanifest.lua` using `fx_version 'cerulean'`.
+- For the duty summary feature, you need the modified PoliceEMSActivity resource from:
 
 ```text
-twopoint-loadingscreen/
+https://github.com/joetwopoint/PoliceEMSActivity
+```
+
+The normal/original PoliceEMSActivity resource may not expose the duty JSON endpoint this loading screen expects. Use the modified version linked above if you want the LEO / FIRE / EMS summary to work.
+
+## Installation
+
+1. Extract the resource folder into your FiveM server resources folder.
+
+Example:
+
+```text
+resources/[standalone]/loadingscreen
+```
+
+2. Add the loading screen to your `server.cfg`.
+
+Example:
+
+```cfg
+ensure loadingscreen
+```
+
+3. If you want duty counts, also install and ensure the modified PoliceEMSActivity resource.
+
+Example:
+
+```cfg
+ensure PoliceEMSActivity
+ensure loadingscreen
+```
+
+4. Restart your server.
+
+5. Join the server and verify that the loading screen appears.
+
+## Important: fxmanifest.lua
+
+Your `fxmanifest.lua` should use `cerulean` as the FiveM manifest version. Do not set `fx_version` to the resource package version number.
+
+Correct:
+
+```lua
+fx_version 'cerulean'
+game 'gta5'
+
+name 'twopoint-loadingscreen'
+description 'Customizable loading screen with optional phone TikToks, rotatable Staff/Most Wanted/Gallery panels, music, Discord widget, and duty stats.'
+author 'TwoPoint Development'
+version '4.7.0'
+
+loadscreen 'html/index.html'
+loadscreen_cursor 'yes'
+
+files {
+    'html/index.html',
+    'html/style.css',
+    'html/script.js',
+    'html/logo.png',
+    'html/staff/*',
+    'html/gallery/*',
+    'html/audio/*',
+    'html/wanted/*',
+}
+```
+
+`loadscreen_cursor 'yes'` is required if you want players to use the music player buttons and volume slider with their mouse.
+
+## File Structure
+
+```text
+loadingscreen/
 ├── fxmanifest.lua
+├── README.md
 └── html/
     ├── index.html
     ├── style.css
     ├── script.js
     ├── logo.png
     ├── audio/
-    └── staff/
-
-PoliceEMSActivity/
-├── fxmanifest.lua
-├── config.lua
-├── server.lua
-├── client.lua
-└── EmergencyBlips/
+    │   └── your music files
+    ├── staff/
+    │   └── staff images
+    ├── wanted/
+    │   └── most wanted images and board templates
+    └── gallery/
+        └── gallery images
 ```
 
-## Requirements
-
-- FiveM server using `fx_version 'cerulean'`.
-- `Badger_Discord_API` installed and started before PoliceEMSActivity.
-- Patched `PoliceEMSActivity` resource included with this package.
-- Public Discord invite code for the Discord card.
-- A reachable FiveM HTTP endpoint for `players.json`, or a valid cfx.re join code fallback.
-
-## Installation
-
-1. Upload both folders to your server resources directory:
+Most customization is done inside:
 
 ```text
-resources/[standalone]/PoliceEMSActivity
-resources/[standalone]/twopoint-loadingscreen
+html/script.js
 ```
 
-2. Add the resources to `server.cfg` in this order:
-
-```cfg
-ensure Badger_Discord_API
-ensure PoliceEMSActivity
-ensure twopoint-loadingscreen
-```
-
-3. Restart the server or restart the resources in the same order.
-
-## Required Configuration
-
-Edit:
+Most visual styling is done inside:
 
 ```text
-twopoint-loadingscreen/html/script.js
+html/style.css
 ```
 
-### Discord Invite Card
+## Main Configuration
 
-Set only the invite code, not the full URL:
+Open:
 
-```js
-var DISCORD_INVITE_CODE = "yourInviteCode";
+```text
+html/script.js
 ```
 
-Examples:
+The top of the file contains the main config sections.
+
+## Discord Widget Setup
+
+Set your Discord invite code here:
 
 ```js
-// discord.gg/abc123
+var DISCORD_INVITE_CODE = "TeCxSpC5wf";
+```
+
+Use only the invite code, not the full link.
+
+Example:
+
+```text
+https://discord.gg/abc123
+```
+
+Use:
+
+```js
 var DISCORD_INVITE_CODE = "abc123";
-
-// discord.com/invite/graveyardrp
-var DISCORD_INVITE_CODE = "graveyardrp";
 ```
 
-The Discord card uses:
+If the Discord widget fails to load, the fallback info is controlled here:
 
-```text
-https://discord.com/api/v10/invites/YOUR_CODE?with_counts=true
+```js
+var DISCORD_WIDGET_FALLBACK = {
+  name: "Discord Server",
+  online: null,
+  members: null,
+  description: "Set DISCORD_INVITE_CODE in script.js to show the Discord widget."
+};
 ```
 
-This returns the public invite data used for the card, including online and member counts when available.
+## FiveM Player Count Setup
 
-### FiveM People-in-State Count
-
-Set the public HTTP endpoint for your FiveM server:
+The server player count uses your FiveM HTTP endpoint:
 
 ```js
 var FIVEM_SERVER_ENDPOINT = "http://YOUR_SERVER_IP:30120";
@@ -140,84 +193,69 @@ var FIVEM_SERVER_ENDPOINT = "http://YOUR_SERVER_IP:30120";
 Example:
 
 ```js
-var FIVEM_SERVER_ENDPOINT = "http://123.45.67.89:30120";
+var FIVEM_SERVER_ENDPOINT = "http://15.204.91.117:30120";
 ```
 
-This allows the loading screen to read:
-
-```text
-http://YOUR_SERVER_IP:30120/players.json
-```
-
-If you do not want to use a direct IP/port endpoint, set a cfx.re join code fallback:
+You can also set your CFX join code as a fallback:
 
 ```js
-var CFX_SERVER_CODE = "abc123";
+var CFX_SERVER_CODE = "yourcode";
 ```
 
-Use only the join code. For example, if your join link is:
+## Duty Summary Setup
+
+The duty box shows grouped totals only:
 
 ```text
-https://cfx.re/join/abc123
+LEO   1
+FIRE  0
+EMS   0
 ```
 
-then configure:
+LEO is the total of:
 
-```js
-var CFX_SERVER_CODE = "abc123";
+```text
+LSPD + BCSO + SASP
 ```
 
-## PoliceEMSActivity Duty Setup
+FIRE is the Fire count.
 
-Duty data is read from PoliceEMSActivity. The loading screen does not track duty state on its own.
+EMS is the EMS count.
 
-Default resource name:
+This feature requires the modified PoliceEMSActivity resource:
+
+```text
+https://github.com/joetwopoint/PoliceEMSActivity
+```
+
+The loading screen looks for duty data using this setting:
 
 ```js
 var POLICE_EMS_ACTIVITY_RESOURCE_NAME = "PoliceEMSActivity";
 ```
 
-Default duty endpoint:
+If your resource folder has a different name, change that value to match the folder name exactly.
+
+The loading screen will automatically try:
 
 ```text
 http://YOUR_SERVER_IP:30120/PoliceEMSActivity/policeemsactivity-duty.json
+http://YOUR_SERVER_IP:30120/PoliceEMSActivity/duty.json
 ```
 
-If your PoliceEMSActivity folder name is different, update the resource name in `script.js`:
-
-```js
-var POLICE_EMS_ACTIVITY_RESOURCE_NAME = "YourFolderName";
-```
-
-Or set a full custom endpoint:
-
-```js
-var POLICE_EMS_ACTIVITY_DUTY_ENDPOINT = "http://YOUR_SERVER_IP:30120/YourFolderName/policeemsactivity-duty.json";
-```
-
-By default, leave this blank:
+You can override the endpoint manually:
 
 ```js
 var POLICE_EMS_ACTIVITY_DUTY_ENDPOINT = "";
 ```
 
-### Department List
+Example:
 
-The loading screen department display should match `PoliceEMSActivity/config.lua`:
-
-```lua
-Config = {
-    RoleList = {
-        ['👮 LSPD'] = {1183541910510518296, 57, nil},
-        ['👮 BCSO'] = {1183541910405652580, 52, nil},
-        ['👮 SASP'] = {1183541910615363646, 54, nil},
-        ['👨‍🚒 Fire'] = {1183541910367912043, 1, nil},
-        ['🚑 EMS'] = {1183541910367912041, 63, nil},
-    },
-}
+```js
+var POLICE_EMS_ACTIVITY_DUTY_ENDPOINT = "http://YOUR_SERVER_IP:30120/PoliceEMSActivity/policeemsactivity-duty.json";
 ```
 
-The matching display list in `twopoint-loadingscreen/html/script.js` is:
+Department matching is controlled here:
 
 ```js
 const DUTY_DEPARTMENTS = [
@@ -229,370 +267,549 @@ const DUTY_DEPARTMENTS = [
 ];
 ```
 
-Only departments with active on-duty units are shown.
+If your PoliceEMSActivity roles use different names, add those names to the correct `aliases` array.
 
-### Duty Refresh Rate
+## Real Loading Progress Bar
 
-Duty stats refresh every 5 minutes by default:
+The progress bar uses FiveM loading progress messages.
+
+Config:
 
 ```js
-var POLICE_EMS_ACTIVITY_DUTY_REFRESH_MS = 300000;
+const REAL_LOAD_PROGRESS_ENABLED = true;
+const REAL_LOAD_PROGRESS_SMOOTHING = true;
+const REAL_LOAD_PROGRESS_SHOW_PERCENT = true;
 ```
 
-`300000` milliseconds equals 5 minutes.
+When enabled, the green bar fills based on the player's actual loading progress.
 
-## Discord Total Member Count Options
-
-The Discord invite card is the recommended method for the public GitHub version because it only requires an invite code.
-
-The patched PoliceEMSActivity resource also includes optional backend Discord count support for servers that want a backend-controlled count endpoint:
-
-```lua
-LOADING_SCREEN_DISCORD_GUILD_ID = 'YOUR_GUILD_ID'
-LOADING_SCREEN_DISCORD_INVITE_CODE = 'yourInviteCode'
-LOADING_SCREEN_DISCORD_MEMBER_COUNT_OVERRIDE = nil
-LOADING_SCREEN_DISCORD_BOT_TOKEN = ''
-LOADING_SCREEN_DISCORD_BOT_TOKEN_CONVAR = 'discord_bot_token'
-LOADING_SCREEN_DISCORD_REFRESH_SECONDS = 300
-```
-
-For the safest bot-token setup, place the token in `server.cfg` instead of a Lua file:
-
-```cfg
-set discord_bot_token "YOUR_BOT_TOKEN"
-```
-
-The bot must be in the Discord server if the bot-token method is used.
-
-## TikTok Configuration
-
-Edit:
+The percentage is shown beside the connecting text:
 
 ```text
-twopoint-loadingscreen/html/script.js
+Connecting to Graveyard Shift Roleplay… 47%
 ```
 
-### Playback Settings
+When testing the HTML file in a normal browser, the progress may stay at `0%` because FiveM is not sending `loadProgress` events outside the game.
 
-```js
-const TIKTOK_MUTED_BY_DEFAULT = false;
-const TIKTOK_TARGET_VOLUME_PERCENT = 25;
-const TIKTOK_SHOW_CONTROLS = true;
-const TIKTOK_RANDOMIZE_FIRST_CLIP = false;
-const TIKTOK_AUTO_ADVANCE = true;
-```
+## Music Player Setup
 
-Recommended setups:
-
-Use TikTok audio:
-
-```js
-const TIKTOK_MUTED_BY_DEFAULT = false;
-const TIKTOK_TARGET_VOLUME_PERCENT = 25;
-```
-
-Use local loading-screen music instead:
-
-```js
-const TIKTOK_MUTED_BY_DEFAULT = true;
-```
-
-TikTok embeds may still be affected by browser autoplay behavior. The loading screen attempts to play and unmute when allowed by the embedded player.
-
-### TikTok Video List
-
-Videos play in the configured order:
-
-```js
-const tikTokUrls = [
-  "https://www.tiktok.com/@youraccount/video/1234567890",
-  "https://www.tiktok.com/@youraccount/video/0987654321"
-];
-```
-
-After the last video, playback loops back to the first video.
-
-### Clip Advance Fallback
-
-If TikTok does not send an ended event, the fallback timer advances to the next clip:
-
-```js
-const CLIP_DURATION_MS = 30000;
-```
-
-`30000` milliseconds equals 30 seconds.
-
-## Local Background Audio
-
-Local background audio is controlled in `script.js`:
+The music player is controlled here:
 
 ```js
 const AUDIO_ENABLED = true;
 let audioDefaultVolume = 0.12;
+
+const MUSIC_PLAYER_WIDGET_ENABLED = true;
+const MUSIC_PLAYER_RANDOM_FIRST_TRACK = true;
+const MUSIC_PLAYER_SHOW_TRACK_NAME = true;
 ```
 
-Add audio files to:
-
-```text
-twopoint-loadingscreen/html/audio/
-```
-
-Then list them:
+Music files are listed here:
 
 ```js
 const AUDIO_TRACKS = [
-  "audio/track-one.mp3",
-  "audio/track-two.mp3"
+  "audio/taylorjames.mp3",
+  "audio/GSRP2.mp3",
+  "audio/GSRP.mp3",
+  "audio/Bradshaw.mp3",
+  "audio/BillyBobandRianontheRun.mp3",
+  "audio/certifiedtortapounder.mp3",
 ];
 ```
 
-When TikTok audio is enabled, consider lowering or disabling local music to avoid overlapping audio.
+To add music:
 
-## Staff Panel
+1. Put the `.mp3` or `.ogg` file in:
 
-The staff panel is disabled by default:
-
-```js
-const STAFF_ENABLED = false;
+```text
+html/audio/
 ```
 
-Enable it:
+2. Add it to `AUDIO_TRACKS`.
+
+Example:
+
+```js
+"audio/mynewsong.mp3",
+```
+
+Music player controls:
+
+- Previous song
+- Play/pause
+- Next song
+- Volume slider
+
+Keyboard shortcuts:
+
+- Space = play/pause
+- Left arrow = previous song
+- Right arrow = next song
+- Up arrow = volume up
+- Down arrow = volume down
+
+## Music Player Position and Styling
+
+The music player styling is in:
+
+```text
+html/style.css
+```
+
+Look for:
+
+```css
+.music-player-widget
+```
+
+Position controls are set with CSS variables:
+
+```css
+--music-player-top: 4.25vh;
+--music-player-left: 5vw;
+--music-player-width: 380px;
+```
+
+Adjust those values if you want the widget higher, lower, left, right, wider, or smaller.
+
+## Center Feature Panels
+
+The center panel can show one panel or rotate through multiple panels.
+
+Config:
+
+```js
+const FEATURE_PANEL_MODE = "rotate";
+const SINGLE_FEATURE_PANEL = "mostwanted";
+const FEATURE_ROTATION_INTERVAL_MS = 8000;
+const FEATURE_ROTATION_ORDER = ["staff", "mostwanted", "gallery"];
+```
+
+Use one panel only:
+
+```js
+const FEATURE_PANEL_MODE = "single";
+const SINGLE_FEATURE_PANEL = "staff";
+```
+
+Valid panel names:
+
+```text
+staff
+mostwanted
+gallery
+```
+
+Rotate all enabled panels:
+
+```js
+const FEATURE_PANEL_MODE = "rotate";
+const FEATURE_ROTATION_ORDER = ["staff", "mostwanted", "gallery"];
+```
+
+Change rotation speed:
+
+```js
+const FEATURE_ROTATION_INTERVAL_MS = 8000;
+```
+
+`8000` means 8 seconds.
+
+## Feature Panel Size
+
+Panel size controls:
+
+```js
+const FEATURE_PANEL_SCALE = 1.05;
+const FEATURE_PANEL_WIDTH_VW = 56;
+const FEATURE_PANEL_MAX_WIDTH_PX = 1080;
+const FEATURE_PANEL_NO_PHONE_WIDTH_VW = 72;
+const FEATURE_PANEL_NO_PHONE_MAX_WIDTH_PX = 1240;
+const FEATURE_PANEL_MAX_HEIGHT_VH = 94;
+```
+
+Staff sizing:
+
+```js
+const STAFF_CARD_MIN_HEIGHT_PX = 152;
+const STAFF_AVATAR_SIZE_PX = 112;
+```
+
+Gallery sizing:
+
+```js
+const GALLERY_CARD_MIN_HEIGHT_PX = 265;
+const GALLERY_IMAGE_MIN_HEIGHT_PX = 225;
+```
+
+Most Wanted board sizing:
+
+```js
+const MOST_WANTED_BOARD_MAX_WIDTH_PX = 850;
+const MOST_WANTED_BOARD_MAX_HEIGHT_VH = 92;
+```
+
+## Staff Panel Setup
+
+Enable or disable Staff:
 
 ```js
 const STAFF_ENABLED = true;
 ```
 
-Add staff images to:
+Staff image settings:
 
-```text
-twopoint-loadingscreen/html/staff/
+```js
+const STAFF_PHOTO_FIT = "contain";
+const STAFF_PHOTO_POSITION = "center center";
 ```
 
-Example staff entry:
+Staff entries:
 
 ```js
 const staffMembers = [
   {
-    name: "Jane Doe",
-    role: "Community Manager",
-    description: "Handles community support and questions.",
-    image: "staff/jane.png"
-  }
+    name: "Bradshaw",
+    role: "Community Director",
+    description: "Smelly British Man.",
+    image: "staff/Bradshaw.png"
+  },
 ];
 ```
 
-## Server Tips
+To add staff images:
 
-Tips are configured in `script.js`:
+1. Put the image in:
+
+```text
+html/staff/
+```
+
+2. Reference it like this:
 
 ```js
-const tips = [
-  "Be respectful to other players. RP > FRP.",
-  "Read the rules in Discord before you hit the streets."
+image: "staff/example.png"
+```
+
+The panel is designed for six staff slots.
+
+## Most Wanted Panel Setup
+
+Enable or disable Most Wanted:
+
+```js
+const MOST_WANTED_ENABLED = true;
+```
+
+Most Wanted image settings:
+
+```js
+const MOST_WANTED_PHOTO_FIT = "contain";
+const MOST_WANTED_PHOTO_POSITION = "center center";
+```
+
+Wanted entries:
+
+```js
+const MOST_WANTED_SUSPECTS = [
+  {
+    name: "Marcus Bradshaw",
+    reason: "Smelly British Man",
+    image: "wanted/Bradshaw1.png",
+    photoPosition: "center center"
+  },
 ];
 ```
 
-## Custom Branding
+To add wanted images:
 
-### Logo
+1. Put the image in:
+
+```text
+html/wanted/
+```
+
+2. Reference it like this:
+
+```js
+image: "wanted/example.png"
+```
+
+The panel is designed for six wanted slots.
+
+The Most Wanted board image used by default is:
+
+```text
+html/wanted/most_wanted_template_cropped.png
+```
+
+If you replace the board template, keep the same filename or update `html/index.html`.
+
+## Gallery Panel Setup
+
+Enable or disable Gallery:
+
+```js
+const GALLERY_ENABLED = true;
+```
+
+Gallery image settings:
+
+```js
+const GALLERY_PHOTO_FIT = "contain";
+const GALLERY_PHOTO_POSITION = "center center";
+```
+
+Captions are disabled by default:
+
+```js
+const GALLERY_SHOW_CAPTIONS = false;
+```
+
+Gallery entries:
+
+```js
+const GALLERY_PHOTOS = [
+  {
+    title: "Gallery 1",
+    description: "Community screenshot or event photo.",
+    image: "gallery/placeholder.png"
+  },
+];
+```
+
+To add gallery images:
+
+1. Put the image in:
+
+```text
+html/gallery/
+```
+
+2. Reference it like this:
+
+```js
+image: "gallery/example.png"
+```
+
+The gallery is designed for six large image tiles.
+
+## TikTok Phone Panel
+
+Enable or disable the right-side TikTok phone:
+
+```js
+const PHONE_TIKTOK_ENABLED = true;
+```
+
+TikTok playback settings:
+
+```js
+const TIKTOK_MUTED_BY_DEFAULT = true;
+const TIKTOK_TARGET_VOLUME_PERCENT = 15;
+const TIKTOK_SHOW_CONTROLS = true;
+const TIKTOK_RANDOMIZE_FIRST_CLIP = true;
+const TIKTOK_AUTO_ADVANCE = true;
+```
+
+TikTok videos:
+
+```js
+const tikTokUrls = [
+  "https://www.tiktok.com/@graveyard_shift_rp/video/7554841913027792183",
+];
+```
+
+Add or remove TikTok links from that list.
+
+If you want to use only a background video and no phone panel, set:
+
+```js
+const PHONE_TIKTOK_ENABLED = false;
+```
+
+## Optional YouTube Background Video
+
+Enable or disable fullscreen YouTube background video:
+
+```js
+const BACKGROUND_VIDEO_ENABLED = false;
+```
+
+YouTube links:
+
+```js
+const BACKGROUND_YT_URLS = [
+  "https://www.youtube.com/watch?v=gQuAaHQrl8U"
+];
+```
+
+Supported formats:
+
+```text
+https://www.youtube.com/watch?v=VIDEO_ID
+https://youtu.be/VIDEO_ID
+https://www.youtube.com/shorts/VIDEO_ID
+https://www.youtube.com/embed/VIDEO_ID
+https://www.youtube.com/live/VIDEO_ID
+```
+
+Playback settings:
+
+```js
+const BACKGROUND_YOUTUBE_MUTED = true;
+const BACKGROUND_YOUTUBE_SHOW_CONTROLS = false;
+const BACKGROUND_YOUTUBE_LOOP = true;
+const BACKGROUND_YOUTUBE_RANDOMIZE_FIRST = true;
+const BACKGROUND_YOUTUBE_USE_NOCOOKIE = false;
+```
+
+Muted autoplay is usually the most reliable option for loading screens.
+
+## Logo Replacement
 
 Replace:
 
 ```text
-twopoint-loadingscreen/html/logo.png
+html/logo.png
 ```
 
-Use the same filename or update `index.html` and `style.css` to point to the new file.
+with your own logo.
 
-### Title and Subtitle
+Keep the filename as `logo.png`, or update all references in `html/index.html` and `html/style.css`.
 
-Edit `twopoint-loadingscreen/html/index.html`:
+## Tips
 
-```html
-<div class="logo-title">Graveyard Shift ROLEPLAY</div>
-<div class="subtitle">@graveyardroleplay</div>
-```
+Tips rotate on the left side of the screen.
 
-### Status Text
+Edit them here:
 
-Edit:
-
-```html
-<div class="status-text">Connecting to Graveyard Shift Roleplay…</div>
-```
-
-### Colors and Layout
-
-Edit:
-
-```text
-twopoint-loadingscreen/html/style.css
-```
-
-## HTTP Endpoints
-
-The patched PoliceEMSActivity resource provides these loading-screen endpoints:
-
-### Duty Stats
-
-```text
-/PoliceEMSActivity/policeemsactivity-duty.json
-/PoliceEMSActivity/duty.json
-```
-
-Example payload:
-
-```json
-{
-  "type": "dutyStats",
-  "source": "PoliceEMSActivity",
-  "updatedAt": 1710000000,
-  "departments": [
-    {
-      "label": "👮 LSPD",
-      "count": 3,
-      "names": ["Officer One", "Officer Two", "Officer Three"]
-    }
-  ]
-}
-```
-
-### Optional Discord Member Count
-
-```text
-/PoliceEMSActivity/discord-member-count.json
-/PoliceEMSActivity/discord-count.json
-```
-
-Example payload:
-
-```json
-{
-  "type": "discordMemberCount",
-  "source": "discord-invite-count",
-  "ok": true,
-  "memberCount": 137,
-  "onlineCount": 51,
-  "updatedAt": 1710000000
-}
+```js
+const tips = [
+  "Be respectful to other players. RP > FRP.",
+  "Read the rules in Discord before you hit the streets.",
+  "Use push-to-talk and keep comms clear during scenes.",
+  "Record your POV – it helps with reports and clips.",
+  "Have fun, but remember: actions have consequences."
+];
 ```
 
 ## Troubleshooting
 
-### Discord card shows `--`
+### The loading screen does not show
 
-Check the following:
+Check `server.cfg`:
 
-- `DISCORD_INVITE_CODE` is set in `script.js`.
-- The invite code is valid and not expired.
-- The invite is written as only the code, not a full URL.
-- The loading screen client can reach Discord's public invite API.
-
-### People in state shows `0` or does not update
-
-Check the following:
-
-- `FIVEM_SERVER_ENDPOINT` is set correctly.
-- The endpoint includes protocol and port, such as `http://123.45.67.89:30120`.
-- `http://YOUR_SERVER_IP:30120/players.json` opens in a browser.
-- If direct endpoint access is not available, set `CFX_SERVER_CODE`.
-
-### On-duty departments show no units
-
-Check the following:
-
-- `PoliceEMSActivity` is started before `twopoint-loadingscreen`.
-- The included patched PoliceEMSActivity resource is installed.
-- The folder name matches `POLICE_EMS_ACTIVITY_RESOURCE_NAME`.
-- Players are actually on duty through PoliceEMSActivity.
-- The department labels in `Config.RoleList` match the loading-screen `DUTY_DEPARTMENTS` labels/aliases.
-- Open this URL in a browser and confirm it returns JSON:
-
-```text
-http://YOUR_SERVER_IP:30120/PoliceEMSActivity/policeemsactivity-duty.json
+```cfg
+ensure loadingscreen
 ```
 
-### Duty endpoint returns 404
+Check `fxmanifest.lua`:
 
-Check the resource folder name. FiveM resource HTTP paths include the resource name:
-
-```text
-http://YOUR_SERVER_IP:30120/RESOURCE_NAME/path
+```lua
+fx_version 'cerulean'
+loadscreen 'html/index.html'
 ```
 
-If the folder is named differently, update:
+### Mouse does not work on the music player
+
+Make sure this line exists in `fxmanifest.lua`:
+
+```lua
+loadscreen_cursor 'yes'
+```
+
+### Real progress bar stays at 0% in browser
+
+That is normal when opening `index.html` in a normal browser. The real progress messages come from FiveM while a player is loading into the server.
+
+### Duty summary shows 0 for everything
+
+Check all of these:
+
+1. Install the modified PoliceEMSActivity resource:
+
+```text
+https://github.com/joetwopoint/PoliceEMSActivity
+```
+
+2. Make sure it is ensured in `server.cfg`:
+
+```cfg
+ensure PoliceEMSActivity
+```
+
+3. Make sure the folder name matches:
 
 ```js
 var POLICE_EMS_ACTIVITY_RESOURCE_NAME = "PoliceEMSActivity";
 ```
 
-### TikTok does not unmute automatically
+4. Make sure your FiveM endpoint is correct:
 
-Browser autoplay rules may block unmuted playback until a user interaction is allowed by the embedded player. The loading screen sends supported play, mute, unmute, and volume messages, but final playback behavior can depend on the FiveM browser environment and TikTok embed behavior.
-
-### TikTok does not advance
-
-Check the following:
-
-- `TIKTOK_AUTO_ADVANCE` is set to `true`.
-- The links in `tikTokUrls` are public video URLs.
-- `CLIP_DURATION_MS` is set to a reasonable fallback duration.
-
-## Recommended `server.cfg`
-
-```cfg
-ensure Badger_Discord_API
-ensure PoliceEMSActivity
-ensure twopoint-loadingscreen
-
-# Optional backend Discord count support
-# set discord_bot_token "YOUR_BOT_TOKEN"
+```js
+var FIVEM_SERVER_ENDPOINT = "http://YOUR_SERVER_IP:30120";
 ```
 
-## Changelog
+5. Test the JSON endpoint in a browser:
 
-### v4.0.0
+```text
+http://YOUR_SERVER_IP:30120/PoliceEMSActivity/policeemsactivity-duty.json
+```
 
-- Replaced the old email-system text count with a Discord invite-card display.
-- Added Discord invite-code configuration.
-- Added Discord server icon, banner/splash, online count, and total member count display.
-- Removed the Join Server button from the Discord display.
-- Kept people-in-state count directly below the Discord card.
-- Removed separate TwoPoint duty tracking from the loading screen.
-- Switched duty display to PoliceEMSActivity-only data.
-- Added patched PoliceEMSActivity HTTP endpoints for duty stats.
-- Added 5-minute duty refresh interval.
-- Added supported LSPD, BCSO, SASP, Fire, and EMS department display.
-- Hid duty departments with zero active units.
-- Improved FiveM people-in-state count handling.
-- Added cfx.re join-code fallback for population count.
-- Added TikTok ordered playlist playback.
-- Added TikTok auto-advance and loop behavior.
-- Added TikTok mute/unmute configuration.
-- Added TikTok target volume configuration.
-- Kept local MP3 background music support.
-- Added expanded setup and troubleshooting documentation.
+If your resource is renamed, replace `PoliceEMSActivity` in the URL with your actual folder name.
 
-### v3.x Development Notes
+### Discord widget does not show correct counts
 
-- Added live state population display.
-- Added early Discord count display.
-- Added first PoliceEMSActivity duty bridge.
-- Removed legacy QBCore/ESX duty polling in favor of PoliceEMSActivity.
-- Improved resource start-order handling.
-- Improved endpoint path handling for FiveM resource HTTP routes.
+Check your invite code:
+
+```js
+var DISCORD_INVITE_CODE = "yourInviteCode";
+```
+
+Do not paste the full Discord invite URL into that field.
+
+### TikTok videos do not load
+
+Check that the TikTok URLs are valid and public. TikTok embeds can also be affected by network restrictions, ad blockers, or TikTok availability.
+
+### YouTube background does not autoplay
+
+Use muted autoplay:
+
+```js
+const BACKGROUND_YOUTUBE_MUTED = true;
+```
+
+Also make sure the YouTube URL is public and embeddable.
+
+### Music does not play automatically
+
+Some clients may block autoplay until interaction. The music player still allows users to press play manually.
+
+### Images do not show
+
+Check that the image file exists in the correct folder and that the path in `script.js` is correct.
+
+Examples:
+
+```js
+image: "staff/Bradshaw.png"
+image: "wanted/Bradshaw1.png"
+image: "gallery/placeholder.png"
+```
+
+Paths are relative to the `html/` folder.
+
+## Notes for Server Owners
+
+- Keep file names simple: avoid spaces and special characters when possible.
+- Use `.png`, `.jpg`, `.jpeg`, or `.webp` for images.
+- Use `.mp3` or `.ogg` for audio.
+- Keep Most Wanted reasons short so they fit under the photos.
+- Keep Staff descriptions short so the cards stay clean.
+- If you use copyrighted music, make sure you have permission to use it on your server.
 
 ## Credits
 
-Developed by **TwoPoint Development**.
-
-## Support Notes
-
-When opening a support request, include:
-
-- Server artifacts version.
-- Resource folder names.
-- Your `server.cfg` start order.
-- The relevant `script.js` config values with private tokens removed.
-- Any console errors from the FiveM client or server console.
-- The output from the duty endpoint URL, if available.
+Created By TwoPoint Development For Graveyard Shift Roleplay.

@@ -4,12 +4,46 @@
   <meta charset="UTF-8" />
   <title>Graveyard Shift Roleplay — Loading</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="background"></div>
 
+  <!-- Optional fullscreen YouTube background. Controlled by BACKGROUND_VIDEO_ENABLED in script.js -->
+  <div class="background-video-layer" id="backgroundVideoLayer" style="display:none;">
+    <iframe
+      id="backgroundYoutubeFrame"
+      title="Background YouTube video"
+      frameborder="0"
+      allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+      referrerpolicy="strict-origin-when-cross-origin"
+    ></iframe>
+  </div>
+
   <audio id="bgAudio" autoplay></audio>
+
+
+  <!-- Clickable music player. Requires loadscreen_cursor 'yes' in fxmanifest.lua. -->
+  <div class="music-player-widget" id="musicPlayerWidget" style="display:none;">
+    <div class="music-player-main">
+      <div class="music-player-icon">♪</div>
+      <div class="music-player-text">
+        <div class="music-player-label">Music Player</div>
+        <div class="music-player-track" id="musicTrackName">Loading music…</div>
+      </div>
+    </div>
+    <div class="music-player-controls">
+      <button class="music-btn" id="musicPrevBtn" type="button" aria-label="Previous song">⏮</button>
+      <button class="music-btn music-play-btn" id="musicPlayPauseBtn" type="button" aria-label="Pause music">⏸</button>
+      <button class="music-btn" id="musicNextBtn" type="button" aria-label="Next song">⏭</button>
+    </div>
+    <div class="music-volume-row">
+      <span class="music-volume-label">VOL</span>
+      <input id="musicVolumeSlider" class="music-volume-slider" type="range" min="0" max="100" value="12" aria-label="Music volume" />
+      <span class="music-volume-text" id="musicVolumeText">12%</span>
+    </div>
+  </div>
 
 
   <div class="overlay"></div>
@@ -29,10 +63,10 @@
         </div>
       </div>
 
-      <div class="status-text">Connecting to Graveyard Shift Roleplay…</div>
+      <div class="status-text">Connecting to Graveyard Shift Roleplay… <span id="loadingProgressText" class="loading-progress-text">0%</span></div>
 
-      <div class="progress-container">
-        <div class="progress-bar"></div>
+      <div class="progress-container" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="loadingProgressContainer">
+        <div class="progress-bar" id="loadingProgressBar"></div>
       </div>
       <div class="small-text">
         Please wait while we load the city.<br />
@@ -66,22 +100,76 @@
           There is currently <span id="stateCount">0</span> people in the state
         </div>
         <div class="stat-divider"></div>
-        <div class="stat-dynamic-title">On-duty by department:</div>
+        <div class="stat-dynamic-title">On-duty summary:</div>
         <div class="duty-list" id="dutyList">
           <!-- Filled dynamically from PoliceEMSActivity duty stats -->
         </div>
       </div>
     </div>
 
-    <!-- Optional staff panel (middle column). Controlled by STAFF_ENABLED in script.js -->
-    <div class="staff-panel" id="staffPanel" style="display:none;">
-      <div class="staff-title">Staff Team</div>
-      <div class="staff-list" id="staffList">
-        <!-- Filled by script.js if STAFF_ENABLED is true -->
+    <!-- Center feature panel area. Controlled by FEATURE_PANEL_MODE in script.js. -->
+    <div class="feature-panel-shell" id="featurePanelShell" style="display:none;">
+      <!-- Optional Staff panel -->
+      <div class="feature-panel staff-panel" id="staffPanel" style="display:none;">
+        <div class="feature-panel-header">
+          <div class="feature-panel-kicker">Community Team</div>
+          <div class="feature-panel-title">Staff Team</div>
+        </div>
+        <div class="staff-list" id="staffList">
+          <!-- Filled by script.js if STAFF_ENABLED is true -->
+        </div>
+      </div>
+
+      <!-- Optional Most Wanted board panel -->
+      <div class="feature-panel wanted-board-panel" id="wantedBoardPanel" style="display:none;">
+        <div class="wanted-board" id="wantedBoard">
+          <img class="wanted-board-template" src="wanted/most_wanted_template_cropped.png" alt="Most Wanted Board" />
+          <div class="wanted-slot slot-1">
+            <img class="wanted-slot-photo" id="mwPhoto1" src="wanted/placeholder.png" alt="Wanted 1" />
+            <div class="wanted-slot-name" id="mwName1"></div>
+            <div class="wanted-slot-reason" id="mwReason1"></div>
+          </div>
+          <div class="wanted-slot slot-2">
+            <img class="wanted-slot-photo" id="mwPhoto2" src="wanted/placeholder.png" alt="Wanted 2" />
+            <div class="wanted-slot-name" id="mwName2"></div>
+            <div class="wanted-slot-reason" id="mwReason2"></div>
+          </div>
+          <div class="wanted-slot slot-3">
+            <img class="wanted-slot-photo" id="mwPhoto3" src="wanted/placeholder.png" alt="Wanted 3" />
+            <div class="wanted-slot-name" id="mwName3"></div>
+            <div class="wanted-slot-reason" id="mwReason3"></div>
+          </div>
+          <div class="wanted-slot slot-4">
+            <img class="wanted-slot-photo" id="mwPhoto4" src="wanted/placeholder.png" alt="Wanted 4" />
+            <div class="wanted-slot-name" id="mwName4"></div>
+            <div class="wanted-slot-reason" id="mwReason4"></div>
+          </div>
+          <div class="wanted-slot slot-5">
+            <img class="wanted-slot-photo" id="mwPhoto5" src="wanted/placeholder.png" alt="Wanted 5" />
+            <div class="wanted-slot-name" id="mwName5"></div>
+            <div class="wanted-slot-reason" id="mwReason5"></div>
+          </div>
+          <div class="wanted-slot slot-6">
+            <img class="wanted-slot-photo" id="mwPhoto6" src="wanted/placeholder.png" alt="Wanted 6" />
+            <div class="wanted-slot-name" id="mwName6"></div>
+            <div class="wanted-slot-reason" id="mwReason6"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Optional Gallery panel -->
+      <div class="feature-panel gallery-panel" id="galleryPanel" style="display:none;">
+        <div class="feature-panel-header">
+          <div class="feature-panel-kicker">City Moments</div>
+          <div class="feature-panel-title">Gallery</div>
+        </div>
+        <div class="gallery-grid" id="galleryGrid">
+          <!-- Filled by script.js if GALLERY_ENABLED is true -->
+        </div>
       </div>
     </div>
 
-    <div class="right-panel">
+    <div class="right-panel" id="phoneVideoPanel">
       <div class="video-wrapper">
         <div class="phone-frame">
           <div class="phone-screen">

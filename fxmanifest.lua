@@ -2,11 +2,12 @@ fx_version 'cerulean'
 game 'gta5'
 
 name 'twopoint-loadingscreen'
-description 'Customizable loading screen with random TikTok / YouTube shorts, optional staff list, and phone-style frame.'
+description 'Customizable loading screen with optional phone TikToks, rotatable Staff/Most Wanted/Gallery panels, music, Discord widget, and duty stats.'
 author 'TwoPoint Development'
-version '4.0.0'
+version '4.6.1'
 
 loadscreen 'html/index.html'
+loadscreen_cursor 'yes'
 
 
 files {
@@ -15,5 +16,7 @@ files {
     'html/script.js',
     'html/logo.png',
     'html/staff/*',
+    'html/gallery/*',
     'html/audio/*',
+    'html/wanted/*',
 }
