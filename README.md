@@ -1,4 +1,4 @@
-# TwoPoint Loading Screen
+# TwoPoint Loading Screen Made For Graveyard Shift RP but can be used anywhere HIGHLY customizable
 
 Modified PoliceEMSActivity duty support requires:
 
