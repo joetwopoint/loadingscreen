@@ -1,22 +1,36 @@
 fx_version 'cerulean'
 game 'gta5'
 
-name 'twopoint-loadingscreen'
-description 'Customizable loading screen with optional phone TikToks, rotatable Staff/Most Wanted/Gallery panels, music, Discord widget, and duty stats.'
-author 'TwoPoint Development'
-version '4.6.1'
+name 'Graveyard Loading Screen'
+author 'Two Point Development'
+description 'Dual Graveyard Shift RP loading screen with seamless design switching, shared assets/config, shared music, real progress, player count, and duty counts.'
+version '1.0.0'
 
 loadscreen 'html/index.html'
+loadscreen_manual_shutdown 'yes'
 loadscreen_cursor 'yes'
-
 
 files {
     'html/index.html',
-    'html/style.css',
-    'html/script.js',
-    'html/logo.png',
-    'html/staff/*',
-    'html/gallery/*',
-    'html/audio/*',
-    'html/wanted/*',
+    'html/twopoint.html',
+    'html/graveyard.html',
+    'html/dual-shell.css',
+    'html/dual-shell.js',
+    'html/shared-config.js',
+    'html/twopoint.css',
+    'html/twopoint.js',
+    'html/graveyard.css',
+    'html/graveyard.js',
+    'html/assets/images/*',
+    'html/assets/staff/*',
+    'html/assets/wanted/*',
+    'html/assets/gallery/*',
+    'html/assets/music/*'
+}
+
+client_script 'client.lua'
+
+server_scripts {
+    'server_config.lua',
+    'server.lua'
 }

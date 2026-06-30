@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Graveyard Shift RP Loading</title>
+  <link rel="stylesheet" href="graveyard.css" />
+</head>
+<body>
+  <div class="background"></div>
+  <div class="scanlines"></div>
+  <div class="ember-layer" aria-hidden="true"></div>
+
+  <div id="fitRoot" class="fit-root">
+  <div id="app" class="app">
+    <main class="dashboard">
+      <section class="panel staff-panel">
+        <div class="panel-title"><span class="title-icon people"></span><span data-text="staffTitle">STAFF</span></div>
+        <div id="staffGrid" class="card-grid staff-grid"></div>
+      </section>
+
+      <section class="panel wanted-panel">
+        <div class="panel-title orange"><span class="title-icon target"></span><span data-text="wantedTitle">MOST WANTED</span></div>
+        <div id="wantedGrid" class="card-grid wanted-grid"></div>
+      </section>
+
+      <section class="panel gallery-panel">
+        <div class="panel-title"><span class="title-icon camera"></span><span data-text="galleryTitle">GALLERY</span></div>
+        <div id="galleryGrid" class="card-grid gallery-grid"></div>
+      </section>
+    </main>
+
+    <footer class="status-bar">
+      <div class="brand-block">
+        <div class="brand"><span data-text="serverNamePrimary">GRAVEYARD</span> <span data-text="serverNameAccent">SHIFT RP</span></div>
+        <div class="tagline" data-text="tagline">FOR WHEN CRIMINALS ARE OUT TO PLAY</div>
+      </div>
+
+      <div class="status-item players-block">
+        <div class="status-icon users"></div>
+        <div><div class="status-main"><span id="playerCount">--</span>/<span id="playerMax">--</span></div><div class="status-sub" data-text="playersLabel">Players Online</div></div>
+      </div>
+
+      <div class="status-item duty-block">
+        <div class="status-icon shield"></div>
+        <div class="duty-wrap">
+          <div class="status-main" data-text="dutyTitle">On Duty</div>
+          <div id="dutyList" class="duty-list">
+            <span><em>LEO</em><b id="leoCount">0</b></span>
+            <span><em>Fire</em><b id="fireCount">0</b></span>
+            <span><em>EMS</em><b id="emsCount">0</b></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="loading-block">
+        <div class="loading-heading"><span id="loadingLabel">LOADING LOS SANTOS...</span><span id="progressText">0%</span></div>
+        <div class="loading-sub" id="loadingSub">Preparing your experience</div>
+        <div class="progress-track"><div id="progressFill" class="progress-fill"></div><div class="progress-glow"></div></div>
+      </div>
+
+      <div class="music-block">
+        <div class="music-top">
+          <button id="musicToggle" class="music-btn" type="button" title="Play / pause music">▶</button>
+          <button id="musicNext" class="music-btn" type="button" title="Next track">⏭</button>
+          <div class="music-meta"><div id="trackTitle">Music</div><div id="trackState">Loading</div></div>
+        </div>
+        <div class="volume-row">
+          <span class="volume-label">VOLUME</span>
+          <span class="volume-icon" aria-hidden="true"></span>
+          <input id="volumeSlider" class="volume-slider" type="range" min="0" max="100" value="10" step="1" title="Music volume" />
+        </div>
+      </div>
+    </footer>
+  </div>
+  </div>
+
+  <audio id="musicPlayer" preload="auto" playsinline></audio>
+
+  <script src="shared-config.js"></script>
+  <script src="graveyard.js"></script>
+</body>
+</html>
